@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 
 import Calc from './app/calculator';
+import Settings from './app/settings';
 
 export default class calculator extends Component {
   render() {
@@ -35,10 +36,7 @@ export default class calculator extends Component {
                     onPress={() => navigator.pop({id:"CalculatorPage"})}
                   />
 
-                  <View style={{flexDirection:'column'}}>
-                    <Text>Im a blank page, I have nothing !</Text>
-                  </View>
-
+                  <Settings />
                 </View>
               )
               break;
