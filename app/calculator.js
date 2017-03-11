@@ -61,7 +61,7 @@ export default class Calc extends Component {
         <View>
           <Button
              style={{flex:1, margin:5, fontSize:20}}
-             title="Setting"
+             title="Calculator"
              onPress={() => this.props.navigator.push({id:'BlankPage'})}
              />
           <Text>

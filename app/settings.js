@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
+  AsyncStorage,
   Picker,
   StyleSheet,
   Text,
