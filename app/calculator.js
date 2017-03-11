@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
+  Button,
   StyleSheet,
   Text,
   TextInput,
@@ -58,6 +59,11 @@ export default class Calc extends Component {
     return (
       <View>
         <View>
+          <Button
+             style={{flex:1, margin:5, fontSize:20}}
+             title="Setting"
+             onPress={() => this.props.navigator.push({id:'BlankPage'})}
+             />
           <Text>
             Tip Calculator
           </Text>
