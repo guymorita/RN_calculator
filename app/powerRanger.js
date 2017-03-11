@@ -17,6 +17,7 @@ export default class PowerRanger extends Component {
     super(props);
     this.state = {};
   }
+
   async getSceneTransition() {
     try {
       let sceneTransitionValue = await AsyncStorage.getItem('SCENE_SELECTED');
@@ -57,8 +58,6 @@ export default class PowerRanger extends Component {
 
   configureScene(route, routeStack){
     this.getSceneTransition();
-
-    console.log('Navigator.SceneConfigs[this.state.sceneTransition]', Navigator.SceneConfigs[this.state.sceneTransition]);
 
     if (this.state.sceneTransition) {
       return Navigator.SceneConfigs[this.state.sceneTransition];

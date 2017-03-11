@@ -14,13 +14,13 @@ var NavigationBarRouteMapper = {
   RightButton: (route, navigator, index, navState) => {
     if(route.title != 'CalculatorPage'){
       return (
-        <TouchableOpacity onPress={() => navigator.pop()}>
+        <TouchableOpacity style={{marginTop: 15}} onPress={() => navigator.pop()}>
           <Text>Save</Text>
         </TouchableOpacity>
       );
     }else{
       return (
-        <TouchableOpacity onPress={() => navigator.push({title: 'SettingsPage'})}>
+        <TouchableOpacity style={{marginTop: 15}} onPress={() => navigator.push({title: 'SettingsPage'})}>
           <Text>Settings</Text>
         </TouchableOpacity>
       );

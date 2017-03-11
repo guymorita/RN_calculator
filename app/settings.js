@@ -8,11 +8,13 @@ import {
   View
 } from 'react-native';
 
+import SegmentedControlTab from 'react-native-segmented-control-tab';
+import defaults from './defaults';
+
 export default class Settings extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-    }
+    this.state = {};
   }
 
   setSelectSceneTransition(scene){
@@ -50,11 +52,39 @@ export default class Settings extends Component {
     }
   }
 
-  componentDidMount() {
+  async handleSegmentTipChange(index) {
+
+    try {
+      await AsyncStorage.setItem('DEFAULT_TIP', String(index));
+
+      this.setState({
+        defaultTipIndex: index
+      });
+    } catch(err) {
+      console.log("Something wrong with the data" + err);
+    }
+  }
+
+  async getdefaultDefaultTip() {
+    try {
+      let defaultTipIndex = await AsyncStorage.getItem('DEFAULT_TIP');
+      defaultTipIndex = Number(defaultTipIndex);
+      this.setState({
+        defaultTipIndex: defaultTipIndex
+      });
+
+    } catch(err) {
+      console.log("Data problems" + err);
+    }
+  }
+  componentWillMount() {
     this.getSceneTransition();
+    this.getdefaultDefaultTip();
   }
 
   render() {
+    var { segmentValues } = defaults;
+
     return (
       <View style={{marginTop:50,padding:10}}>
         <View>
@@ -70,6 +100,14 @@ export default class Settings extends Component {
             <Picker.Item label="HorizontalSwipeJump" value="HorizontalSwipeJump" />
             <Picker.Item label="HorizontalSwipeJumpFromRight" value="HorizontalSwipeJumpFromRight" />
           </Picker>
+        </View>
+        <View>
+          <Text style={{fontSize:25}}>Default Tip</Text>
+          <SegmentedControlTab
+            values={segmentValues}
+            selectedIndex={this.state.defaultTipIndex}
+            onTabPress= {index => this.handleSegmentTipChange(index)}
+            />
         </View>
       </View>
     );

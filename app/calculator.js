@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
+  AsyncStorage,
   Button,
   StyleSheet,
   Text,
@@ -9,6 +10,7 @@ import {
 } from 'react-native';
 
 import SegmentedControlTab from 'react-native-segmented-control-tab';
+import defaults from './defaults';
 
 export default class Calc extends Component {
   constructor(props) {
@@ -39,7 +41,7 @@ export default class Calc extends Component {
 
   updateTotals(amount, index) {
     amount = parseFloat(amount);
-    var percent = this.segmentValues()[index];
+    var percent = defaults.segmentValues[index];
     percent = parseFloat(percent) / 100;
 
     var tipAmount = amount * percent;
@@ -51,21 +53,29 @@ export default class Calc extends Component {
     });
   }
 
-  segmentValues() {
-    return ["10%", "15%", "50%"];
+  async getDefaultTip() {
+    try {
+      let defaultTipIndex = await AsyncStorage.getItem('DEFAULT_TIP');
+      defaultTipIndex = Number(defaultTipIndex);
+
+      this.setState({
+        defaultTipIndex: defaultTipIndex
+      });
+    } catch(err) {
+      console.log("Data problems" + err);
+    }
+  }
+
+  componentWillMount() {
+    this.getDefaultTip();
   }
 
   render() {
     return (
       <View>
-        <View>
-          <Button
-             style={{flex:1, margin:5, fontSize:20}}
-             title="Calculator"
-             onPress={() => this.props.navigator.push({id:'BlankPage'})}
-             />
-          <Text>
-            Tip Calculator
+        <View style={{marginTop: 20, marginBottom: 30}}>
+          <Text style={{fontSize: 20, color: "blue", alignSelf: "center"}}>
+            Calculator
           </Text>
         </View>
 
@@ -73,9 +83,14 @@ export default class Calc extends Component {
           <Text>
             Bill Amount
           </Text>
+        </View>
+
+        <View>
           <TextInput
             onChangeText={(amount) => this.handleBillAmountChange(amount)}
             keyboardType="numeric"
+            placeholder="Enter an amount"
+            style={{height: 40}}
             maxLength={10}
             />
         </View>
@@ -88,7 +103,8 @@ export default class Calc extends Component {
 
         <View>
           <SegmentedControlTab
-            values={this.segmentValues()}
+            values={defaults.segmentValues}
+            selectedIndex={this.state.defaultTipIndex}
             onTabPress= {index => this.handleSegmentControlChange(index)}
             />
         </View>
